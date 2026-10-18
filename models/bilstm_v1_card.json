@@ -2,7 +2,7 @@
   "name": "BiLSTM",
   "version": "v1",
   "artifact": "bilstm_v1.pt",
-  "scaler_artifact": "bilstm_v1_scalers.joblib",
+  "scaler_artifact": "sequence_v1_scalers.joblib",
   "initialization": "Seeded random weights; no pretrained model",
   "training_origin_start": "2025-01-02 05:30:00+05:30",
   "training_target_end": "2025-04-15 23:30:00+05:30",

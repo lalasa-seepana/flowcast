@@ -1,6 +1,6 @@
 # FlowCast: AI-Powered Smart Traffic Flow Prediction
 
-FlowCast predicts traffic volume, speed, congestion, travel time and accident risk for the 25-road Northline Corridor. It follows the supplied FlowCast PRD v1.0 and Data Dictionary v1.0. The three source CSV files cover 1 January to 31 May 2025. All times use Asia/Kolkata, as confirmed by the user.
+FlowCast predicts traffic volume, speed, congestion, travel time and accident risk for the 25-road Northline Corridor. It follows the supplied FlowCast PRD v1.0 and Data Dictionary v1.0. The three source CSV files cover 1 January to 31 May 2025. The PRD requires timezone-aware timestamps but does not specify a timezone. This project uses `Asia/Kolkata` (India Standard Time), as confirmed by the user.
 
 The dashboard is a historical replay. It does not connect to a live traffic feed. Every chart and score comes from the supplied data or a trained model. See [the final technical report](reports/final_report.md) for measured results and any unmet accuracy targets.
 
@@ -87,7 +87,7 @@ flowcast-project/
 └── README.md
 ```
 
-The original empty `src/ml_model.py` scaffold is preserved. The implementation uses `src/ml_models.py`, exactly as the PRD specifies. The original Word documents remain unchanged in the supplied source folder. The runtime and Git support files do not add product features.
+The classical model implementation is `src/ml_models.py`, as the PRD specifies. The original Word documents remain unchanged in the supplied source folder. The runtime and Git support files support execution and reproducibility.
 
 ## Data and modelling rules
 
@@ -101,7 +101,7 @@ Training targets end on 15 April. Validation ends on 8 May. Test origins start a
 
 Volume and speed models use the same direct four-horizon feature table. Travel-time models use forecast volume and speed, capacity and a segment length inferred only from training observations. The NumPy linear baseline implements loss and gradients directly. Other baselines use scikit-learn and XGBoost. A scaled linear SVM provides the required classification baseline.
 
-The GRU and bidirectional LSTM start with random weights. They predict next-window volume and congestion and use exactly the same next-window test records as the classical models. Their training curves and search results are saved. The bidirectional model reads both directions of the past input window only and is shown as a historical benchmark.
+The GRU and bidirectional LSTM start with random weights. They predict next-window volume and congestion and use exactly the same next-window test records as the classical models. Their training curves and search results are saved. Both use the same training-fitted scalers, stored once in `models/sequence_v1_scalers.joblib` and referenced by both model cards. The bidirectional model reads both directions of the past input window only and is shown as a historical benchmark.
 
 ## Dashboard workflow
 

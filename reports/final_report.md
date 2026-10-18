@@ -12,7 +12,7 @@ The accuracy criteria below use the primary 30-minute horizon. Every horizon is 
 | Congestion macro-F1 ≥ 0.80 | 0.7661 | False |
 | Accident ROC-AUC ≥ 0.75 | 0.6074 | False |
 | GRU beats best classical volume RMSE | 61.97 vs 56.83 | False |
-| 25-road inference ≤ 30 seconds | 0.369 seconds | True |
+| 25-road inference ≤ 30 seconds | 0.134 seconds | True |
 
 ## Data and evaluation
 
@@ -112,4 +112,4 @@ Run the one-command workflow in README. It regenerates cleaning outputs, model f
 
 ## Verification
 
-15 automated tests passed. All three notebooks executed successfully. The tests cover original CSV integrity, grid reconciliation, causal cleaning, lag timing, time splits, model reloads, matching deep/classical test keys, metric calculations, all nine dashboard views and the prediction action. Full output is in `reports/test_results.txt`.
+17 automated tests passed. All three notebooks executed successfully. The tests cover original CSV integrity, grid reconciliation, causal cleaning, lag timing, time splits, model reloads, matching deep/classical test keys, metric calculations, all nine dashboard views, prediction, upload and report exports. Training-interface tests check process launch and status with a test double, so they do not overwrite trained models. Full output is in `reports/test_results.txt`.

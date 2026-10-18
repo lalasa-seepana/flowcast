@@ -1,4 +1,4 @@
-test_nine_views_and_role_defaults (test_dashboard.DashboardTests.test_nine_views_and_role_defaults) ... 2026-10-18 14:04:34.695 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+test_nine_views_and_role_defaults (test_dashboard.DashboardTests.test_nine_views_and_role_defaults) ... 2026-10-18 15:26:53.153 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
 /home/lalasa/flowcast-project/.venv/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:64: PyparsingDeprecationWarning:
 
 'oneOf' deprecated - use 'one_of'
@@ -18,7 +18,11 @@ test_nine_views_and_role_defaults (test_dashboard.DashboardTests.test_nine_views
 In /home/lalasa/flowcast-project/.venv/lib/python3.11/site-packages/matplotlib/mpl-data/stylelib/classic.mplstyle: 'parseString' deprecated - use 'parse_string'
 In /home/lalasa/flowcast-project/.venv/lib/python3.11/site-packages/matplotlib/mpl-data/stylelib/classic.mplstyle: 'resetCache' deprecated - use 'reset_cache'
 ok
-test_prediction_action_uses_saved_models (test_dashboard.DashboardTests.test_prediction_action_uses_saved_models) ... 2026-10-18 14:04:48.301 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+test_prediction_action_uses_saved_models (test_dashboard.DashboardTests.test_prediction_action_uses_saved_models) ... 2026-10-18 15:26:57.729 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_training_launch_and_status_controls (test_dashboard.DashboardTests.test_training_launch_and_status_controls) ... 2026-10-18 15:27:01.221 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_upload_prediction_and_report_export (test_dashboard.DashboardTests.test_upload_prediction_and_report_export) ... 2026-10-18 15:27:02.102 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
 ok
 test_deep_weights_reload_and_test_keys_match (test_pipeline.ArtifactTests.test_deep_weights_reload_and_test_keys_match) ... ok
 test_forecast_issue_time_and_missing_history (test_pipeline.ArtifactTests.test_forecast_issue_time_and_missing_history) ... ok
@@ -35,6 +39,6 @@ test_past_features_do_not_change_when_future_is_removed (test_pipeline.DataAndTi
 test_raw_files_match_manifest (test_pipeline.DataAndTimingTests.test_raw_files_match_manifest) ... ok
 
 ----------------------------------------------------------------------
-Ran 15 tests in 49.520s
+Ran 17 tests in 30.177s
 
 OK

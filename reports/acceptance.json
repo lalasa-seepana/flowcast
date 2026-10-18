@@ -8,7 +8,7 @@
   "gru_volume_rmse": 61.9686593961435,
   "best_classical_volume_rmse": 56.8266675791982,
   "deep_beats_classical": false,
-  "inference_25_roads_one_horizon_seconds": 0.3685273299997789,
+  "inference_25_roads_one_horizon_seconds": 0.13420836200020858,
   "inference_pass": true,
   "exact_test_keys_match": true,
   "test_records_horizon_1": 26124

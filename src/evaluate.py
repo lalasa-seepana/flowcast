@@ -59,12 +59,6 @@ def report(df, cfg):
     dl = pd.read_csv(ROOT / 'reports/dl_scoreboard.csv')
     scoreboard = pd.concat([ml, dl], ignore_index=True)
     scoreboard.to_csv(ROOT / 'reports/model_comparison.csv', index=False)
-    for card_path in (ROOT / 'models').glob(f'flow_*_{cfg["version"]}_card.json'):
-        card = json.loads(card_path.read_text())
-        persisted = joblib.load(ROOT / 'models' / card['artifact'])
-        card['travel_features'] = ['forecast_volume', 'forecast_speed', 'road_capacity', 'training_segment_length_km', 'physical_travel_minutes']
-        card['travel_hyperparameters'] = persisted['travel_model'].get_params()
-        save_json(card_path, card)
     selected = json.loads((ROOT / 'models/selected_models.json').read_text())
     outputs = {}
     for task, artifact in selected.items():
@@ -75,9 +69,8 @@ def report(df, cfg):
         outputs[task] = out
     flow = outputs['flow']
     h1 = flow.loc[flow.horizon.eq(1)]
-    observed = df.loc[df.window_observed].copy()
     numeric = ['traffic_volume', 'avg_speed', 'occupancy', 'travel_time', 'rainfall', 'visibility', 'temperature', 'road_capacity']
-    actual = observed.copy()
+    actual = df.loc[df.window_observed].copy()
     for col in ['traffic_volume', 'avg_speed', 'occupancy']:
         actual.loc[~actual[f'{col}_observed'], col] = np.nan
     desc = actual[numeric].describe().T
@@ -108,7 +101,7 @@ def report(df, cfg):
     grid['severity'] = grid.congestion_level.map(dict(zip(CLASSES, range(4))))
     grid['clock'] = grid.timestamp.dt.strftime('%H:%M')
     fig, ax = plt.subplots(figsize=(13, 7), layout='constrained')
-    from matplotlib.colors import ListedColormap, BoundaryNorm
+    from matplotlib.colors import ListedColormap
     hm = grid.pivot(index='road_id', columns='clock', values='severity')
     sns.heatmap(hm, cmap=ListedColormap(COLORS), vmin=-.5, vmax=3.5, ax=ax,
                 cbar_kws={'ticks': [0, 1, 2, 3]}, xticklabels=4)

@@ -126,7 +126,7 @@ def verify_delivery():
     report_path = ROOT / 'reports/final_report.md'
     with report_path.open('a') as stream:
         stream.write('\n## Verification\n\n' + summary +
-                     ' All three notebooks executed successfully. The tests cover original CSV integrity, grid reconciliation, causal cleaning, lag timing, time splits, model reloads, matching deep/classical test keys, metric calculations, all nine dashboard views and the prediction action. Full output is in `reports/test_results.txt`.\n')
+                     ' All three notebooks executed successfully. The tests cover original CSV integrity, grid reconciliation, causal cleaning, lag timing, time splits, model reloads, matching deep/classical test keys, metric calculations, all nine dashboard views, prediction, upload and report exports. Training-interface tests check process launch and status with a test double, so they do not overwrite trained models. Full output is in `reports/test_results.txt`.\n')
     logging.info(summary)
 
 def main():

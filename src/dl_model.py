@@ -81,6 +81,10 @@ def train(df, cfg=None):
     X = raw.copy()
     X[:, unbounded] = standard.fit(raw[masks['train']][:, unbounded]).transform(raw[:, unbounded])
     X[:, bounded] = minmax.fit(raw[masks['train']][:, bounded]).transform(raw[:, bounded])
+    scaler_artifact = f'sequence_{cfg["version"]}_scalers.joblib'
+    joblib.dump({'standard': standard, 'minmax': minmax,
+                 'bounded': bounded, 'unbounded': unbounded},
+                ROOT / 'models' / scaler_artifact)
     # No clipping: a held-out value outside the training range remains visible.
     mean = float(frame.loc[masks['train'] & observed, 'y_traffic_volume'].mean())
     scale = float(frame.loc[masks['train'] & observed, 'y_traffic_volume'].std())
@@ -150,7 +154,7 @@ def train(df, cfg=None):
                 if stale >= cfg['dl']['patience']:
                     break
             model.load_state_dict(state)
-            vp, cp = predict(model, loaders['validation'], mean, scale)
+            vp, _ = predict(model, loaders['validation'], mean, scale)
             val_rmse = regression_metrics(frame.iloc[indices['validation']].y_traffic_volume, vp)['rmse']
             trials.append({'model': kind, 'trial': trial, **params, 'best_validation_loss': best_loss,
                            'validation_rmse': val_rmse, 'epochs_run': epoch})
@@ -187,11 +191,9 @@ def train(df, cfg=None):
         checkpoint = {'state_dict': best['state'], 'features': features, 'parameters': best['parameters'],
                       'kind': kind, 'target_mean': mean, 'target_scale': scale, 'interval_radius': radius}
         torch.save(checkpoint, ROOT / f'models/{kind.lower()}_{cfg["version"]}.pt')
-        joblib.dump({'standard': standard, 'minmax': minmax, 'bounded': bounded, 'unbounded': unbounded},
-                    ROOT / f'models/{kind.lower()}_{cfg["version"]}_scalers.joblib')
         card = {'name': kind, 'version': cfg['version'],
                 'artifact': f'{kind.lower()}_{cfg["version"]}.pt',
-                'scaler_artifact': f'{kind.lower()}_{cfg["version"]}_scalers.joblib', 'initialization': 'Seeded random weights; no pretrained model',
+                'scaler_artifact': scaler_artifact, 'initialization': 'Seeded random weights; no pretrained model',
                 'training_origin_start': str(frame.iloc[ids['train']].timestamp.min()),
                 'training_target_end': str(frame.iloc[ids['train']].target_timestamp.max()),
                 'validation_target_end': str(frame.iloc[ids['validation']].target_timestamp.max()),

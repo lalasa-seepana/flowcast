@@ -6,7 +6,7 @@ from pathlib import Path
 import joblib
 import numpy as np
 import pandas as pd
-from src.utils import ROOT, config, CLASSES
+from src.utils import ROOT, config
 from src.features import load_dataset, supervised, feature_columns, split_masks, time_folds
 from src.clean import congestion
 from src.ml_models import predict_bundle, NumpyLinearRegression
@@ -121,7 +121,11 @@ class ArtifactTests(unittest.TestCase):
     def test_deep_weights_reload_and_test_keys_match(self):
         import torch
         from src.dl_model import SequenceForecaster
+        torch.set_num_threads(config()['threads'])
         cfg = config()
+        df = load_dataset()
+        history = supervised(df.loc[df.road_id.eq('NL-001')], horizons=[1],
+                             require_targets=False).sort_values('timestamp')
         reference = pd.read_csv(ROOT / f'data/processed/flow_xgboost_{cfg["version"]}_test.csv.gz')
         keys = ['road_id', 'timestamp', 'target_timestamp']
         reference = set(map(tuple, reference.loc[reference.horizon.eq(1), keys].to_numpy()))
@@ -134,6 +138,28 @@ class ArtifactTests(unittest.TestCase):
             self.assertEqual(reference, set(map(tuple, output[keys].to_numpy())))
             self.assertTrue((output.lower_traffic_volume <= output.pred_traffic_volume).all())
             self.assertTrue((output.upper_traffic_volume >= output.pred_traffic_volume).all())
+            card = json.loads((ROOT / f'models/{kind}_{cfg["version"]}_card.json').read_text())
+            scalers = joblib.load(ROOT / 'models' / card['scaler_artifact'])
+            values = history[checkpoint['features']].to_numpy(np.float32)
+            for key, columns in [('standard', 'unbounded'), ('minmax', 'bounded')]:
+                indices = scalers[columns]
+                values[:, indices] = scalers[key].transform(values[:, indices])
+            saved = output.loc[output.road_id.eq('NL-001')].head(12)
+            times = pd.to_datetime(saved.timestamp, utc=True).dt.tz_convert(cfg['timezone'])
+            ends = pd.Index(history.timestamp).get_indexer(times)
+            self.assertTrue((ends >= params['sequence_length']-1).all())
+            sequences = np.stack([values[end-params['sequence_length']+1:end+1]
+                                  for end in ends])
+            model.eval()
+            with torch.no_grad():
+                volume, logits = model(torch.from_numpy(sequences))
+            prediction = np.maximum(0, volume.numpy()*checkpoint['target_scale']
+                                    + checkpoint['target_mean'])
+            np.testing.assert_allclose(prediction, saved.pred_traffic_volume,
+                                       rtol=1e-5, atol=2e-4)
+            np.testing.assert_allclose(torch.softmax(logits, dim=1).numpy(),
+                                       saved[[f'p_{j}' for j in range(4)]],
+                                       rtol=1e-5, atol=2e-6)
 
     def test_forecast_issue_time_and_missing_history(self):
         from src.ml_models import forecast_latest

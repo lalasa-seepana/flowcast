@@ -21,6 +21,7 @@ st.markdown('''<style>
 .block-container {padding-top: 2rem; max-width: 1500px;}
 h1, h2, h3 {letter-spacing: -0.03em;}
 [data-testid="stMetric"] {background: #f1f6f8; padding: 16px; border-radius: 8px; color: #17394c;}
+[data-testid="stMetric"] * {color: #17394c !important;}
 </style>''', unsafe_allow_html=True)
 
 VIEWS = ['Live prediction', 'Historical trends', 'Congestion heatmap', 'Road comparison',
@@ -251,9 +252,6 @@ with st.expander('Upload sensor data'):
         try:
             incoming = pd.read_csv(upload)
             raw = {name: pd.read_csv(ROOT / f'data/raw/{name}.csv') for name in SCHEMAS}
-            required = set(SCHEMAS['traffic_sensor_log']) - set(incoming.columns)
-            if required:
-                raise ValueError(f'Missing columns: {sorted(required)}')
             upload_audit = []
             valid_upload = validate(incoming, 'traffic_sensor_log', upload_audit, persist_rejected=False)
             if valid_upload.empty:

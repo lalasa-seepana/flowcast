@@ -73,9 +73,8 @@ def candidates(task, cfg):
                                       subsample=.85, colsample_bytree=.9, tree_method='hist',
                                       n_jobs=n, random_state=s) for d in [3, 5]],
         }
-    constructor = DecisionTreeClassifier
     return {
-        'Decision Tree': [constructor(max_depth=d, min_samples_leaf=50, class_weight='balanced', random_state=s) for d in [7, 11]],
+        'Decision Tree': [DecisionTreeClassifier(max_depth=d, min_samples_leaf=50, class_weight='balanced', random_state=s) for d in [7, 11]],
         'Random Forest': [RandomForestClassifier(n_estimators=32, max_depth=d, min_samples_leaf=30,
                                                  class_weight='balanced', max_samples=.35, n_jobs=n, random_state=s) for d in [9, 13]],
         'XGBoost': [XGBClassifier(n_estimators=160, max_depth=d, learning_rate=.07,
@@ -137,7 +136,7 @@ def train(df, cfg=None):
     folds = list(time_folds(train, cfg['cv_folds']))
     lengths = (df.loc[(df.timestamp <= pd.Timestamp(cfg['train_end'], tz=cfg['timezone'])) & df.avg_speed_observed]
                .assign(length=lambda x: x.avg_speed*x.travel_time/60).groupby('road_id').length.median().to_dict())
-    rows, cv_rows, val_rows, pred_frames, cards = [], [], [], [], []
+    rows, cv_rows, val_rows = [], [], []
     selected = {}
     regression_best = {t: float('inf') for t in ['flow', 'speed', 'travel_time']}
     for task in ['flow', 'congestion', 'accident']:
@@ -188,7 +187,6 @@ def train(df, cfg=None):
                 bundle['model'] = calibrated
             slug = f"{task}_{name.lower().replace(' ', '_')}_{cfg['version']}"
             path = ROOT / f'models/{slug}.joblib'
-            save_model(bundle, path)
             val_rows.append({'task': task, 'model': name, 'selection_score': value,
                              'cv_mean': trial_scores[chosen], 'candidate': chosen,
                              'speed_validation_rmse': target_scores['speed'] if task == 'flow' else None,
@@ -253,7 +251,6 @@ def train(df, cfg=None):
                     'test_metrics': [r for r in rows if r['model'] == name and r['task'] in (['traffic_volume', 'avg_speed', 'travel_time'] if task == 'flow' else [task])],
                     'limitations': 'Offline rolling-origin forecasts. Future weather is unavailable. Travel model uses measured flow/speed during training and predicted inputs during evaluation.'}
             save_json(ROOT / f'models/{slug}_card.json', card)
-            cards.append(card)
             logging.info('Finished %s / %s; validation score %.4f', task, name, value)
     pd.DataFrame(rows).to_csv(ROOT / 'reports/ml_scoreboard.csv', index=False)
     pd.DataFrame(cv_rows).to_csv(ROOT / 'reports/cv_results.csv', index=False)
@@ -294,11 +291,10 @@ def forecast_latest(df, origin=None, roads=None):
         if task in ['flow', 'speed', 'travel_time']:
             target = {'flow': 'traffic_volume', 'speed': 'avg_speed', 'travel_time': 'travel_time'}[task]
             j = ['traffic_volume', 'avg_speed', 'travel_time'].index(target)
-            for j, target in [(j, target)]:
-                out[target] = pred[:, j]
-                radius = frame.horizon.map(lambda h: bundle['intervals'][str(int(h))][j]).to_numpy()
-                out[f'{target}_lower'] = np.maximum(0, pred[:, j]-radius)
-                out[f'{target}_upper'] = pred[:, j]+radius
+            out[target] = pred[:, j]
+            radius = frame.horizon.map(lambda h: bundle['intervals'][str(int(h))][j]).to_numpy()
+            out[f'{target}_lower'] = np.maximum(0, pred[:, j]-radius)
+            out[f'{target}_upper'] = pred[:, j]+radius
         elif task == 'congestion':
             from src.utils import CLASSES
             out['congestion_level'] = np.asarray(CLASSES)[pred.argmax(1)]
