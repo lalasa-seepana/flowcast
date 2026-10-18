@@ -2,7 +2,7 @@
 
 FlowCast predicts traffic volume, speed, congestion, travel time and accident risk for the 25-road Northline Corridor. It follows the supplied FlowCast PRD v1.0 and Data Dictionary v1.0. The three source CSV files cover 1 January to 31 May 2025. The PRD requires timezone-aware timestamps but does not specify a timezone. This project uses `Asia/Kolkata` (India Standard Time), as confirmed by the user.
 
-The dashboard is a historical replay. It does not connect to a live traffic feed. Every chart and score comes from the supplied data or a trained model. See [the final technical report](reports/final_report.md) for measured results and any unmet accuracy targets.
+The dashboard is a historical replay. It does not connect to a live traffic feed. Every chart and score comes from the supplied data or a trained model. See the [final technical report](reports/final_report.md) for measured results and any unmet accuracy targets.
 
 ## Setup
 
