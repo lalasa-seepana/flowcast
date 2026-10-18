@@ -1,0 +1,7 @@
+{
+  "flow": "flow_random_forest_v1.joblib",
+  "speed": "flow_xgboost_v1.joblib",
+  "travel_time": "flow_random_forest_v1.joblib",
+  "congestion": "congestion_xgboost_v1.joblib",
+  "accident": "accident_random_forest_v1.joblib"
+}

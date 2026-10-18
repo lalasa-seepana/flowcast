@@ -1,0 +1,15 @@
+{
+  "volume_mape_percent": 9.017593410743203,
+  "volume_mape_pass": true,
+  "congestion_macro_f1": 0.7661392145800183,
+  "congestion_f1_pass": false,
+  "accident_roc_auc": 0.6074124996318874,
+  "accident_auc_pass": false,
+  "gru_volume_rmse": 61.9686593961435,
+  "best_classical_volume_rmse": 56.8266675791982,
+  "deep_beats_classical": false,
+  "inference_25_roads_one_horizon_seconds": 0.3685273299997789,
+  "inference_pass": true,
+  "exact_test_keys_match": true,
+  "test_records_horizon_1": 26124
+}

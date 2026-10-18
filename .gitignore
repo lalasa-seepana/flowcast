@@ -1,0 +1,7 @@
+.venv/
+.python/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+reports/*.log
+reports/*.lock

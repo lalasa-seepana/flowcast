@@ -1,0 +1,40 @@
+test_nine_views_and_role_defaults (test_dashboard.DashboardTests.test_nine_views_and_role_defaults) ... 2026-10-18 14:04:34.695 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+/home/lalasa/flowcast-project/.venv/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:64: PyparsingDeprecationWarning:
+
+'oneOf' deprecated - use 'one_of'
+
+/home/lalasa/flowcast-project/.venv/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:85: PyparsingDeprecationWarning:
+
+'parseString' deprecated - use 'parse_string'
+
+/home/lalasa/flowcast-project/.venv/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:89: PyparsingDeprecationWarning:
+
+'resetCache' deprecated - use 'reset_cache'
+
+/home/lalasa/flowcast-project/.venv/lib/python3.11/site-packages/matplotlib/_mathtext.py:45: PyparsingDeprecationWarning:
+
+'enablePackrat' deprecated - use 'enable_packrat'
+
+In /home/lalasa/flowcast-project/.venv/lib/python3.11/site-packages/matplotlib/mpl-data/stylelib/classic.mplstyle: 'parseString' deprecated - use 'parse_string'
+In /home/lalasa/flowcast-project/.venv/lib/python3.11/site-packages/matplotlib/mpl-data/stylelib/classic.mplstyle: 'resetCache' deprecated - use 'reset_cache'
+ok
+test_prediction_action_uses_saved_models (test_dashboard.DashboardTests.test_prediction_action_uses_saved_models) ... 2026-10-18 14:04:48.301 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_deep_weights_reload_and_test_keys_match (test_pipeline.ArtifactTests.test_deep_weights_reload_and_test_keys_match) ... ok
+test_forecast_issue_time_and_missing_history (test_pipeline.ArtifactTests.test_forecast_issue_time_and_missing_history) ... ok
+test_reload_predictions_match_saved_outputs (test_pipeline.ArtifactTests.test_reload_predictions_match_saved_outputs) ... ok
+test_scoreboard_metrics_match_saved_predictions (test_pipeline.ArtifactTests.test_scoreboard_metrics_match_saved_predictions) ... ok
+test_cleaning_causal_values_match_truncated_real_sources (test_pipeline.DataAndTimingTests.test_cleaning_causal_values_match_truncated_real_sources) ... ok
+test_dictionary_congestion_rule_on_real_rows (test_pipeline.DataAndTimingTests.test_dictionary_congestion_rule_on_real_rows) ... ok
+test_features_and_targets_are_chronological (test_pipeline.DataAndTimingTests.test_features_and_targets_are_chronological) ... ok
+test_grid_reconciliation_and_flags (test_pipeline.DataAndTimingTests.test_grid_reconciliation_and_flags) ... ok
+test_lag_48_is_previous_day_for_same_road (test_pipeline.DataAndTimingTests.test_lag_48_is_previous_day_for_same_road) ... ok
+test_missing_required_column_is_rejected (test_pipeline.DataAndTimingTests.test_missing_required_column_is_rejected) ... ok
+test_numpy_gradient_descent_reduces_real_data_loss (test_pipeline.DataAndTimingTests.test_numpy_gradient_descent_reduces_real_data_loss) ... ok
+test_past_features_do_not_change_when_future_is_removed (test_pipeline.DataAndTimingTests.test_past_features_do_not_change_when_future_is_removed) ... ok
+test_raw_files_match_manifest (test_pipeline.DataAndTimingTests.test_raw_files_match_manifest) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 49.520s
+
+OK

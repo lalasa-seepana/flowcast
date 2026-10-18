@@ -1,0 +1,29 @@
+{
+  "source_rows": {
+    "calendar_events": 151,
+    "weather_observations": 10872,
+    "traffic_sensor_log": 178468
+  },
+  "duplicates": 1767,
+  "weather_duplicates": 0,
+  "calendar_duplicates": 0,
+  "absent_windows": 4499,
+  "processed_rows": 181200,
+  "missing_sensor_cells_after_validation": {
+    "traffic_volume": 9086,
+    "avg_speed": 9078,
+    "occupancy": 9072
+  },
+  "statistical_extremes_retained": {
+    "traffic_volume": 124,
+    "avg_speed": 0,
+    "occupancy": 0
+  },
+  "audit_records": 5834,
+  "weather_missing_cells": {
+    "temperature": 167,
+    "visibility": 111,
+    "rainfall": 0
+  },
+  "blank_congestion_source_rows": 26883
+}

@@ -1,0 +1,15 @@
+version: v1
+seed: 42
+timezone: Asia/Kolkata
+train_end: '2025-04-15 23:30'
+validation_end: '2025-05-08 23:30'
+horizons: [1, 2, 3, 4]
+interval_coverage: 0.90
+threads: 2
+cv_folds: 2
+dl:
+  epochs: 18
+  patience: 4
+  candidates:
+    - {sequence_length: 8, hidden_size: 32, layers: 1, dropout: 0.15, learning_rate: 0.001, batch_size: 512}
+    - {sequence_length: 12, hidden_size: 48, layers: 2, dropout: 0.2, learning_rate: 0.0015, batch_size: 256}

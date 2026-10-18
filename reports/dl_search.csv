@@ -1,0 +1,4 @@
+model,trial,sequence_length,hidden_size,layers,dropout,learning_rate,batch_size,best_validation_loss,validation_rmse,epochs_run
+GRU,0,8,32,1,0.15,0.001,512,0.12333232648262493,61.852961443008375,18
+GRU,1,12,48,2,0.2,0.0015,256,0.11919734291558193,60.064182121856916,18
+BiLSTM,0,12,48,2,0.2,0.0015,256,0.11999567785696293,61.01874922499764,18

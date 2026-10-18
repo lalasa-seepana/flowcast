@@ -1,0 +1,14 @@
+{
+  "calendar_events.csv": {
+    "sha256": "60d3de6b731486e02f6edaa3515af87c2472231a211b48d94d7a3cad38799b9c",
+    "bytes": 3114
+  },
+  "weather_observations.csv": {
+    "sha256": "63f3dc54a491dfd5d4663d8bf0602779084c30a1396f0c7b4fd177e132bc8a31",
+    "bytes": 540212
+  },
+  "traffic_sensor_log.csv": {
+    "sha256": "8f793f3643c891d4fdda7b66c5c4792d24f4db3f26a07cccb8f1d613e254062a",
+    "bytes": 31231835
+  }
+}
